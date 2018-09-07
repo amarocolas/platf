@@ -1,85 +1,28 @@
-const PhysicVector = require('../gameeng/physicvector');
+function Pixel(pixelData) {
 
-var galinhaleft	=[	
-    "*www*******"+
-    "ywbw*******"+
-    "*www*******"+
-    "***w*****ww"+
-    "***wwwwww**"+
-    "***wwwwww**"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "****y*y****"+
-    "****y*y****",
+    this.sprites = pixelData.sprites;
+    this.linesAmount = pixelData.linesAmount;
+	this.linesLength = pixelData.linesLength;
+    this.pixelSize = pixelData.pixelSize;
+	this.animSpeed = pixelData.animSpeed;
+    this.framecounter = pixelData.framecounter;
+    this.lastFrameUpdate = pixelData.lastFrameUpdate;
+    this.colors = pixelData.colors;
 
-    "*www*******"+
-    "ywbw*******"+
-    "*www*******"+
-    "***w*****ww"+
-    "***wwwwww**"+
-    "***wwwwww**"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "***y***y***"+
-    "**y*****y**"
-];
-
-var galinharight=[	
-    "*******www*"+
-    "*******wbwy"+
-    "*******www*"+
-    "ww*****w***"+
-    "**wwwwww***"+
-    "**wwwwww***"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "****y*y****"+
-    "****y*y****",
-
-    "*******www*"+
-    "*******wbwy"+
-    "*******www*"+
-    "ww*****w***"+
-    "**wwwwww***"+
-    "**wwwwww***"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "***y***y***"+
-    "**y*****y**"
-];
-
-function Pixel() {
-
-    this.linesAmount = 11;
-	this.linesLength = 11;
-    this.pixelSize = new PhysicVector(5,5);
-    this.img = galinhaleft[0];
-	this.animSpeed = 200;
-    this.framecounter = 0;
-    this.lastFrameUpdate = new Date();
-
-    this.colors = {
-        w: "rgba(255, 255, 255, 1)",
-        b: "rgba(0, 0, 0, 1)",
-        y: "rgba(255, 255, 0, 1)"
-    };
+    this.img = this.sprites[1][0];
 
     this.update = (dir) => {
         if (dir < 0) {
 			if (new Date() - this.lastFrameUpdate > this.animSpeed) {
 				this.lastFrameUpdate = new Date();
-				this.framecounter = (this.framecounter + 1)%galinhaleft.length;
-				this.img = galinhaleft[this.framecounter];
+				this.framecounter = (this.framecounter + 1)%this.sprites[0].length;
+				this.img = this.sprites[0][this.framecounter];
 			}
 		} else if (dir > 0) {
 			if (new Date() - this.lastFrameUpdate > this.animSpeed) {
 				this.lastFrameUpdate = new Date();
-				this.framecounter = (this.framecounter + 1)%galinharight.length;
-				this.img = galinharight[this.framecounter];
+				this.framecounter = (this.framecounter + 1)%this.sprites[1].length;
+				this.img = this.sprites[1][this.framecounter];
 			}
 		}
     };

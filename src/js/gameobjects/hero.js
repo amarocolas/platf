@@ -1,6 +1,8 @@
 const PhysicVector = require('../gameeng/physicvector');
 const Pixel = require('../gameeng/pixel');
 
+const getHero = require('../gamedata/hero');
+
 const Brick = require('./brick');
 
 function Hero(){
@@ -19,7 +21,7 @@ function Hero(){
 		atr = .1;
 	
 	this.shape = 'pxl';
-	this.drawable = new Pixel();
+	this.drawable = new Pixel(getHero());
 
 	//GET USER INPUT
 	

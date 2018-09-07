@@ -17,7 +17,14 @@ function getIntro(){
 		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
 		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
 		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 0, y: 550, width: 3200, height: 50, color: "#A3B6BD"}
+		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
+	];
+
+	level.enemies = [
+		{x: 200, y: 355, type:"rabbit"},
+		{x: 800, y: 355, type:"fox"},
+		{x: 400, y: 355, type:"skank"},
+		{x: 600, y: 355, type:"eagle"}
 	];
 
 	level.levelStuff = [

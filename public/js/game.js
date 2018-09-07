@@ -99,7 +99,239 @@ var GameStateMachine = (gameConf) => {
 }
 
 module.exports = GameStateMachine;
-},{"./gameeng/view":8,"./gamestates/gameover":14,"./gamestates/level":15,"./gamestates/splashscreen":16}],3:[function(require,module,exports){
+},{"./gameeng/view":10,"./gamestates/gameover":16,"./gamestates/level":17,"./gamestates/splashscreen":18}],3:[function(require,module,exports){
+const PhysicVector = require('../gameeng/physicvector');
+
+var whiteChicken = [[
+    //left
+    "*www*******"+
+    "ywbw*******"+
+    "*www*******"+
+    "***w*****ww"+
+    "***wwwwww**"+
+    "***wwwwww**"+
+    "***wwwww***"+
+    "***wwwww***"+
+    "****y*y****"+
+    "****y*y****"+
+    "****y*y****",
+
+    "*www*******"+
+    "ywbw*******"+
+    "*www*******"+
+    "***w*****ww"+
+    "***wwwwww**"+
+    "***wwwwww**"+
+    "***wwwww***"+
+    "***wwwww***"+
+    "****y*y****"+
+    "***y***y***"+
+    "**y*****y**"
+],[
+    //right
+    "*******www*"+
+    "*******wbwy"+
+    "*******www*"+
+    "ww*****w***"+
+    "**wwwwww***"+
+    "**wwwwww***"+
+    "***wwwww***"+
+    "***wwwww***"+
+    "****y*y****"+
+    "****y*y****"+
+    "****y*y****",
+
+    "*******www*"+
+    "*******wbwy"+
+    "*******www*"+
+    "ww*****w***"+
+    "**wwwwww***"+
+    "**wwwwww***"+
+    "***wwwww***"+
+    "***wwwww***"+
+    "****y*y****"+
+    "***y***y***"+
+    "**y*****y**"
+]];
+
+var brownChicken = [[
+    //left
+    "*gwg*******"+
+    "ywbm*******"+
+    "*mwg*******"+
+    "***m*****ww"+
+    "***gwgmgm**"+
+    "***mmwgmw**"+
+    "***gwmwg***"+
+    "***wgmgw***"+
+    "****y*y****"+
+    "****y*y****"+
+    "****y*y****",
+
+    "*gwg*******"+
+    "ywbm*******"+
+    "*mwg*******"+
+    "***m*****ww"+
+    "***gwgmgm**"+
+    "***mmwgmw**"+
+    "***gwmwg***"+
+    "***wgmgw***"+
+    "****y*y****"+
+    "***y***y***"+
+    "**y*****y**"
+],[
+    //right
+    "*******gwg*"+
+    "*******wbmy"+
+    "*******mwg*"+
+    "ww*****m***"+
+    "**mgmgwg***"+
+    "**wmgwmm***"+
+    "***gwmwg***"+
+    "***wgmgw***"+
+    "****y*y****"+
+    "****y*y****"+
+    "****y*y****",
+
+    "*******gwg*"+
+    "*******wbmy"+
+    "*******mwg*"+
+    "ww*****m***"+
+    "**mgmgwg***"+
+    "**wmgwmm***"+
+    "***gwmwg***"+
+    "***wgmgw***"+
+    "****y*y****"+
+    "***y***y***"+
+    "**y*****y**"
+]];
+
+var blackChicken = [[
+    //left
+    "rr*********"+
+    "*rr********"+
+    "*bbb*******"+
+    "ybwb*******"+
+    "*bbb*******"+
+    "*r*b*****bb"+
+    "***bbbbbb**"+
+    "***bbbbbb**"+
+    "***bbbbb***"+
+    "***bbbbb***"+
+    "****y*y****"+
+    "****y*y****"+
+    "****y*y****",
+
+    "rr*********"+
+    "*rr********"+
+    "*bbb*******"+
+    "ybwb*******"+
+    "*bbb*******"+
+    "*r*b*****bb"+
+    "***bbbbbb**"+
+    "***bbbbbb**"+
+    "***bbbbb***"+
+    "***bbbbb***"+
+    "****y*y****"+
+    "***y***y***"+
+    "**y*****y**"
+],[
+    //right
+    "*********rr"+
+    "********rr*"+
+    "*******bbb*"+
+    "*******bwby"+
+    "*******bbb*"+
+    "bb*****b*r*"+
+    "**bbbbbb***"+
+    "**bbbbbb***"+
+    "***bbbbb***"+
+    "***bbbbb***"+
+    "****y*y****"+
+    "****y*y****"+
+    "****y*y****",
+
+    "*********rr"+
+    "********rr*"+
+    "*******bbb*"+
+    "*******bwby"+
+    "*******bbb*"+
+    "bb*****b*r*"+
+    "**bbbbbb***"+
+    "**bbbbbb***"+
+    "***bbbbb***"+
+    "***bbbbb***"+
+    "****y*y****"+
+    "***y***y***"+
+    "**y*****y**"
+]];
+
+function getHero() {
+
+    let hero = {};
+
+    // sprites [ "left frames" , "right frames" ]
+    hero.sprites = brownChicken;
+
+    hero.linesAmount = 11;
+	hero.linesLength = 11;
+    hero.pixelSize = new PhysicVector(5,5);
+    hero.animSpeed = 200;
+    hero.framecounter = 0;
+    hero.lastFrameUpdate = new Date();
+
+    hero.colors = {
+        w: "rgba(255, 255, 255, 1)",
+        b: "rgba(0, 0, 0, 1)",
+        r: "rgba(255, 0, 0, 1)",
+        y: "rgba(255, 192, 0, 1)",
+        g: "rgba(155, 155, 155, 1)",
+        m: "rgba(143, 73, 0, 1)"
+    };
+
+    return hero;
+};
+
+module.exports = getHero;
+},{"../gameeng/physicvector":8}],4:[function(require,module,exports){
+function getIntro(){
+	var level = {};
+
+	level.blocks=[
+		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
+	];
+
+	level.levelStuff = [
+		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
+	];
+
+	level.levelExit = {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"};
+
+	return level;
+
+}
+
+module.exports = getIntro;
+},{}],5:[function(require,module,exports){
 function CollisionDetection () {
 
 	// ellipse X rectangle collision
@@ -134,7 +366,7 @@ function CollisionDetection () {
 
 
 module.exports = CollisionDetection;
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 //basic event system
 event = {};
 event.subs = [];
@@ -178,7 +410,7 @@ event.executeAfter = function(to,cb){
 }
 
 module.exports = event;
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 function ImageElement(image){
 	var imgElem = document.createElement("img");
 	imgElem.src = image;
@@ -187,7 +419,7 @@ function ImageElement(image){
 }
 
 module.exports = ImageElement;
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 function PhysicVector(x, y){
 
     this.x = x;
@@ -231,96 +463,39 @@ function PhysicVector(x, y){
 }
 
 module.exports = PhysicVector;
-},{}],7:[function(require,module,exports){
-const PhysicVector = require('../gameeng/physicvector');
+},{}],9:[function(require,module,exports){
+function Pixel(pixelData) {
 
-var galinhaleft	=[	
-    "*www*******"+
-    "ywbw*******"+
-    "*www*******"+
-    "***w*****ww"+
-    "***wwwwww**"+
-    "***wwwwww**"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "****y*y****"+
-    "****y*y****",
+    this.sprites = pixelData.sprites;
+    this.linesAmount = pixelData.linesAmount;
+	this.linesLength = pixelData.linesLength;
+    this.pixelSize = pixelData.pixelSize;
+	this.animSpeed = pixelData.animSpeed;
+    this.framecounter = pixelData.framecounter;
+    this.lastFrameUpdate = pixelData.lastFrameUpdate;
+    this.colors = pixelData.colors;
 
-    "*www*******"+
-    "ywbw*******"+
-    "*www*******"+
-    "***w*****ww"+
-    "***wwwwww**"+
-    "***wwwwww**"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "***y***y***"+
-    "**y*****y**"
-];
-
-var galinharight=[	
-    "*******www*"+
-    "*******wbwy"+
-    "*******www*"+
-    "ww*****w***"+
-    "**wwwwww***"+
-    "**wwwwww***"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "****y*y****"+
-    "****y*y****",
-
-    "*******www*"+
-    "*******wbwy"+
-    "*******www*"+
-    "ww*****w***"+
-    "**wwwwww***"+
-    "**wwwwww***"+
-    "***wwwww***"+
-    "***wwwww***"+
-    "****y*y****"+
-    "***y***y***"+
-    "**y*****y**"
-];
-
-function Pixel() {
-
-    this.linesAmount = 11;
-	this.linesLength = 11;
-    this.pixelSize = new PhysicVector(5,5);
-    this.img = galinhaleft[0];
-	this.animSpeed = 200;
-    this.framecounter = 0;
-    this.lastFrameUpdate = new Date();
-
-    this.colors = {
-        w: "rgba(255, 255, 255, 1)",
-        b: "rgba(0, 0, 0, 1)",
-        y: "rgba(255, 255, 0, 1)"
-    };
+    this.img = this.sprites[1][0];
 
     this.update = (dir) => {
         if (dir < 0) {
 			if (new Date() - this.lastFrameUpdate > this.animSpeed) {
 				this.lastFrameUpdate = new Date();
-				this.framecounter = (this.framecounter + 1)%galinhaleft.length;
-				this.img = galinhaleft[this.framecounter];
+				this.framecounter = (this.framecounter + 1)%this.sprites[0].length;
+				this.img = this.sprites[0][this.framecounter];
 			}
 		} else if (dir > 0) {
 			if (new Date() - this.lastFrameUpdate > this.animSpeed) {
 				this.lastFrameUpdate = new Date();
-				this.framecounter = (this.framecounter + 1)%galinharight.length;
-				this.img = galinharight[this.framecounter];
+				this.framecounter = (this.framecounter + 1)%this.sprites[1].length;
+				this.img = this.sprites[1][this.framecounter];
 			}
 		}
     };
 };
 
 module.exports = Pixel;
-},{"../gameeng/physicvector":6}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 const PhysicVector = require('./physicvector');
 const ImageElement = require('./imageelement');
 
@@ -329,7 +504,7 @@ function GameView(gameSize){
 	this.cameraSize = new PhysicVector(800, 600);
 	this.gameSize = gameSize;
 
-	var _bgColor = "rgba(200, 200, 200, 1)";
+	var _bgColor = "rgba(0, 224, 255, 1)";
 
 	var canvas;
 	var ctx;
@@ -477,7 +652,7 @@ function GameView(gameSize){
 }
 
 module.exports = GameView;
-},{"./imageelement":5,"./physicvector":6}],9:[function(require,module,exports){
+},{"./imageelement":7,"./physicvector":8}],11:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 
 function Brick(){
@@ -515,7 +690,7 @@ function Brick(){
 }
 
 module.exports = Brick;
-},{"../gameeng/physicvector":6}],10:[function(require,module,exports){
+},{"../gameeng/physicvector":8}],12:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 const Brick = require('./brick');
 
@@ -612,9 +787,11 @@ function Part(){
 Part.prototype = new Brick();
 
 module.exports = Explosion;
-},{"../gameeng/physicvector":6,"./brick":9}],11:[function(require,module,exports){
+},{"../gameeng/physicvector":8,"./brick":11}],13:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 const Pixel = require('../gameeng/pixel');
+
+const getHero = require('../gamedata/hero');
 
 const Brick = require('./brick');
 
@@ -634,7 +811,7 @@ function Hero(){
 		atr = .1;
 	
 	this.shape = 'pxl';
-	this.drawable = new Pixel();
+	this.drawable = new Pixel(getHero());
 
 	//GET USER INPUT
 	
@@ -742,7 +919,7 @@ function Hero(){
 Hero.prototype = new Brick();
 
 module.exports = Hero;
-},{"../gameeng/physicvector":6,"../gameeng/pixel":7,"./brick":9}],12:[function(require,module,exports){
+},{"../gamedata/hero":3,"../gameeng/physicvector":8,"../gameeng/pixel":9,"./brick":11}],14:[function(require,module,exports){
 const Brick = require('./brick');
 const Explosion = require('./explosion');
 
@@ -853,7 +1030,7 @@ function Level(){
 }
 
 module.exports = Level;
-},{"./brick":9,"./explosion":10}],13:[function(require,module,exports){
+},{"./brick":11,"./explosion":12}],15:[function(require,module,exports){
 function Score(){
 
 	this.points = 0;
@@ -879,7 +1056,7 @@ function Score(){
 }
 
 module.exports = Score;
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 const Score = require('../gameobjects/score');
 
 function GameOverState(_stateMachine)
@@ -915,7 +1092,7 @@ function GameOverState(_stateMachine)
 }
 
 module.exports =GameOverState;
-},{"../gameobjects/score":13}],15:[function(require,module,exports){
+},{"../gameobjects/score":15}],17:[function(require,module,exports){
 const CollisionDetection = require('../gameeng/collisiondetection');
 const event = require('../gameeng/event');
 
@@ -923,7 +1100,7 @@ const Score = require('../gameobjects/score');
 const Hero = require('../gameobjects/hero');
 const Level = require('../gameobjects/level');
 
-const getIntro = require('../levels');
+const getIntro = require('../gamedata/levels');
 
 function GameLevelState(_stateMachine) {
 	var stateMachine = _stateMachine;
@@ -1028,7 +1205,7 @@ function GameLevelState(_stateMachine) {
 }
 
 module.exports = GameLevelState;
-},{"../gameeng/collisiondetection":3,"../gameeng/event":4,"../gameobjects/hero":11,"../gameobjects/level":12,"../gameobjects/score":13,"../levels":18}],16:[function(require,module,exports){
+},{"../gamedata/levels":4,"../gameeng/collisiondetection":5,"../gameeng/event":6,"../gameobjects/hero":13,"../gameobjects/level":14,"../gameobjects/score":15}],18:[function(require,module,exports){
 const Score = require('../gameobjects/score');
 
 function SplashState(_stateMachine)
@@ -1101,46 +1278,8 @@ function SplashState(_stateMachine)
 }
 
 module.exports = SplashState;
-},{"../gameobjects/score":13}],17:[function(require,module,exports){
+},{"../gameobjects/score":15}],19:[function(require,module,exports){
 const Game = require('./game');
 
 Game();
-},{"./game":1}],18:[function(require,module,exports){
-function getIntro(){
-	var level = {};
-
-	level.blocks=[
-		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 0, y: 550, width: 3200, height: 50, color: "#A3B6BD"}
-	];
-
-	level.levelStuff = [
-		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
-	];
-
-	level.levelExit = {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"};
-
-	return level;
-
-}
-
-module.exports = getIntro;
-},{}]},{},[17]);
+},{"./game":1}]},{},[19]);

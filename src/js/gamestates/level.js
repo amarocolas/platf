@@ -5,7 +5,7 @@ const Score = require('../gameobjects/score');
 const Hero = require('../gameobjects/hero');
 const Level = require('../gameobjects/level');
 
-const getIntro = require('../levels');
+const getIntro = require('../gamedata/levels');
 
 function GameLevelState(_stateMachine) {
 	var stateMachine = _stateMachine;

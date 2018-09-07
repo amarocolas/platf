@@ -6,7 +6,7 @@ function GameView(gameSize){
 	this.cameraSize = new PhysicVector(800, 600);
 	this.gameSize = gameSize;
 
-	var _bgColor = "rgba(200, 200, 200, 1)";
+	var _bgColor = "rgba(0, 224, 255, 1)";
 
 	var canvas;
 	var ctx;
