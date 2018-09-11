@@ -1,8 +1,9 @@
 function Pixel(pixelData) {
 
-    this.sprites = pixelData.sprites;
+	this.sprites = pixelData.sprites;
     this.linesAmount = pixelData.linesAmount;
 	this.linesLength = pixelData.linesLength;
+	this.size = pixelData.size;
     this.pixelSize = pixelData.pixelSize;
 	this.animSpeed = pixelData.animSpeed;
     this.framecounter = pixelData.framecounter;

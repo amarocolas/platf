@@ -1,4 +1,5 @@
 const Brick = require('./brick');
+const Enemy = require('./enemy');
 const Explosion = require('./explosion');
 
 function Level(){
@@ -15,30 +16,34 @@ function Level(){
 	this.init = function(_gameSize, intLvl){
 		var blocks = intLvl.blocks;
 		var levelStuff = intLvl.levelStuff;
+		var enemies = intLvl.enemies;
 
 		gameSize = _gameSize;
 		
-		for (var index in blocks)
-		{
-			var block = blocks[index];
+		blocks.forEach( elem => {
 			var brick = new Brick();
 			brick.brickType = 'ground';
-			brick.init(block.x, block.y);
-			brick.setSize(block.width, block.height);
-			brick.setColor(block.color);
+			brick.init(elem.x, elem.y);
+			brick.setSize(elem.width, elem.height);
+			brick.setColor(elem.color);
 			this.elements.push(brick);
-		}
+		});
 
-		for (var index in levelStuff) {
-
-			var thing = levelStuff[index];
+		levelStuff.forEach(elem => {
 			var brick = new Brick();
 			brick.brickType = 'thing';
-			brick.init(thing.x,thing.y);
-			brick.setSize(thing.width, thing.height);
-			brick.setColor(thing.color);
+			brick.init(elem.x,elem.y);
+			brick.setSize(elem.width, elem.height);
+			brick.setColor(elem.color);
 			this.elements.push(brick);
-		}
+		});
+
+		enemies.forEach( elem => {
+			var enemy = new Enemy();
+			enemy.brickType = 'enemy';
+			enemy.init(elem.x,elem.y,elem.type);
+			this.elements.push(enemy);
+		});
 
 		if (intLvl.levelExit) {
 			this.levelExit = intLvl.levelExit;

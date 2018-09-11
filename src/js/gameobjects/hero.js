@@ -20,9 +20,10 @@ function Hero(){
 		maxSpeed = 30,
 		atr = .1;
 	
-	this.shape = 'pxl';
+	this.shape = 'drawable';
 	this.drawable = new Pixel(getHero());
-
+	this.size = this.drawable.size;
+	
 	//GET USER INPUT
 	
 	var getKeyDownInput = function(event) {
@@ -72,13 +73,7 @@ function Hero(){
 	//PUBLIC FUNCTIONS
 
 	this.init = function(_gameSize){
-
 		this.pos.x = this.pos.y = 0;
-		this.size.x = 44;
-		this.size.y = 40;
-		this.drawable.pixelSize.x = this.size.x/this.drawable.linesLength;
-		this.drawable.pixelSize.y = this.size.y/this.drawable.linesAmount;
-
 		addListeners();
 	}
 

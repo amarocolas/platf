@@ -68,12 +68,12 @@ function GameView(gameSize){
 					object.size.y
 				);
 				break;
-			case "pxl":
-				let totalAmount = object.drawable.linesLength * object.drawable.linesAmount;
-				for(var i = 0; i < totalAmount; i++) {
-					var posX = i % object.drawable.linesLength;
-					var posY = Math.floor(i/object.drawable.linesAmount);
+			case "drawable":
+				var totalAmount = object.drawable.linesLength * object.drawable.linesAmount;
+				for(let i = 0; i < totalAmount; i++) {
 					if (object.drawable.colors[object.drawable.img[i]]) {
+						let posX = i % object.drawable.linesLength;
+						let posY = Math.floor(i/object.drawable.linesLength);
 						ctx.fillStyle = object.drawable.colors[object.drawable.img[i]];
 						ctx.fillRect(
 							this.pos.x + object.pos.x + object.drawable.pixelSize.x * posX,

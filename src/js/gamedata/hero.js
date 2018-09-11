@@ -178,6 +178,10 @@ function getHero() {
     hero.framecounter = 0;
     hero.lastFrameUpdate = new Date();
 
+    hero.size = new PhysicVector(44,40);
+    hero.pixelSize.x = hero.size.x/hero.linesLength;
+    hero.pixelSize.y = hero.size.y/hero.linesAmount;
+
     hero.colors = {
         w: "rgba(255, 255, 255, 1)",
         b: "rgba(0, 0, 0, 1)",

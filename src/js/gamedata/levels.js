@@ -21,10 +21,10 @@ function getIntro(){
 	];
 
 	level.enemies = [
-		{x: 200, y: 355, type:"rabbit"},
-		{x: 800, y: 355, type:"fox"},
-		{x: 400, y: 355, type:"skank"},
-		{x: 600, y: 355, type:"eagle"}
+		{x: 200, y: 510, type:"rabbit"},
+		{x: 300, y: 500, type:"fox"},
+		{x: 400, y: 510, type:"skunk"},
+		{x: 500, y: 510, type:"eagle"},
 	];
 
 	level.levelStuff = [

@@ -99,7 +99,131 @@ var GameStateMachine = (gameConf) => {
 }
 
 module.exports = GameStateMachine;
-},{"./gameeng/view":10,"./gamestates/gameover":16,"./gamestates/level":17,"./gamestates/splashscreen":18}],3:[function(require,module,exports){
+},{"./gameeng/view":14,"./gamestates/gameover":21,"./gamestates/level":22,"./gamestates/splashscreen":23}],3:[function(require,module,exports){
+const PhysicVector = require('../gameeng/physicvector');
+
+var frames = [[
+    //left
+    "***********m*"+
+    "**********mm*"+
+    "*********mmc*"+
+    "**mmm****mmc*"+
+    "**mwm***mmc**"+
+    "*ommm***mm***"+
+    "ooommmmmm**mm"+
+    "o****mmmmmmm*"+
+    "*****mcccmc**"+
+    "*******occo**"+
+    "******oo*oo**"+
+    "******o**o***",
+],[
+    //right
+    "*m***********"+
+    "*mm**********"+
+    "*cmm*********"+
+    "*cmm****mmm**"+
+    "**cmm***mwm**"+
+    "***mm***mmmo*"+
+    "mm**mmmmmmooo"+
+    "*mmmmmmm****o"+
+    "**cmcccm*****"+
+    "**occo*******"+
+    "**oo*oo******"+
+    "***o**o******",
+]];
+
+function Eagle () {
+    let drawable = {};
+
+    // sprites [ "left frames" , "right frames" ]
+    drawable.sprites = frames;
+
+    drawable.linesAmount = 12;
+    drawable.linesLength = 13;
+    
+    drawable.pixelSize = new PhysicVector(5,5);
+    drawable.animSpeed = 200;
+    drawable.framecounter = 0;
+    drawable.lastFrameUpdate = new Date();
+
+    drawable.size = new PhysicVector(40,40);
+    drawable.pixelSize.x = drawable.size.x/drawable.linesLength;
+    drawable.pixelSize.y = drawable.size.y/drawable.linesAmount;
+
+    drawable.colors = {
+        w: "rgba(255, 255, 255, 1)",
+        m: "rgba(157, 70, 0, 1)",
+        c: "rgba(222, 101, 4, 1)",
+        o: "rgba(223, 156, 0, 1)"
+    };
+
+    drawable.update = () => {
+
+    };
+
+    return drawable;
+};
+
+module.exports = Eagle;
+},{"../gameeng/physicvector":12}],4:[function(require,module,exports){
+const PhysicVector = require('../gameeng/physicvector');
+
+var frames = [[
+    //left
+    "o*o*******o"+
+    "ooo******oo"+
+    "ror******oo"+
+    "ooo*****o**"+
+    "*o*ooooo***"+
+    "***ooooo***"+
+    "***ooooooo*"+
+    "**oo****oo*"+
+    "**o******o*",
+],[
+    //right
+    "o*******o*o"+
+    "oo******ooo"+
+    "oo******ror"+
+    "**o*****ooo"+
+    "***ooooo*o*"+
+    "***ooooo***"+
+    "*ooooooo***"+
+    "*oo****oo**"+
+    "*o******o**",
+]];
+
+function Fox () {
+    let drawable = {};
+
+    // sprites [ "left frames" , "right frames" ]
+    drawable.sprites = frames;
+
+    drawable.linesAmount = 9;
+    drawable.linesLength = 11;
+    
+    drawable.pixelSize = new PhysicVector(5,5);
+    drawable.animSpeed = 200;
+    drawable.framecounter = 0;
+    drawable.lastFrameUpdate = new Date();
+
+    drawable.size = new PhysicVector(60,50);
+    drawable.pixelSize.x = drawable.size.x/drawable.linesLength;
+    drawable.pixelSize.y = drawable.size.y/drawable.linesAmount;
+
+    drawable.colors = {
+        o: "rgba(223, 156, 0, 1)",
+        r: "rgba(255, 0, 0, 1)"
+    };
+
+    drawable.update = () => {
+
+    };
+
+    return drawable;
+};
+
+module.exports = Fox;
+},{"../gameeng/physicvector":12}],5:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 
 var whiteChicken = [[
@@ -280,6 +404,10 @@ function getHero() {
     hero.framecounter = 0;
     hero.lastFrameUpdate = new Date();
 
+    hero.size = new PhysicVector(44,40);
+    hero.pixelSize.x = hero.size.x/hero.linesLength;
+    hero.pixelSize.y = hero.size.y/hero.linesAmount;
+
     hero.colors = {
         w: "rgba(255, 255, 255, 1)",
         b: "rgba(0, 0, 0, 1)",
@@ -293,7 +421,7 @@ function getHero() {
 };
 
 module.exports = getHero;
-},{"../gameeng/physicvector":8}],4:[function(require,module,exports){
+},{"../gameeng/physicvector":12}],6:[function(require,module,exports){
 function getIntro(){
 	var level = {};
 
@@ -316,6 +444,13 @@ function getIntro(){
 		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
 	];
 
+	level.enemies = [
+		{x: 200, y: 510, type:"rabbit"},
+		{x: 300, y: 500, type:"fox"},
+		{x: 400, y: 510, type:"skunk"},
+		{x: 500, y: 510, type:"eagle"},
+	];
+
 	level.levelStuff = [
 		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
 		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
@@ -331,7 +466,161 @@ function getIntro(){
 }
 
 module.exports = getIntro;
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+const PhysicVector = require('../gameeng/physicvector');
+
+var frames = [[
+    //left
+    "bb**bb"+
+    "*b***b"+
+    "bbbbbb"+
+    "brbrbb"+
+    "bbbbbb"+
+    "brbrbb"+
+    "rbrbrb"+
+    "bbbbbb"+
+    "**bbb*"+
+    "**bbb*"+
+    "**bbb*"+
+    "*b**b*"+
+    "bb*bb*",
+
+    "bb**bb"+
+    "*b***b"+
+    "bbbbbb"+
+    "brbrbb"+
+    "bbbbbb"+
+    "brbrbb"+
+    "rbrbrb"+
+    "bbbbbb"+
+    "**bbb*"+
+    "**bbb*"+
+    "**bbb*"+
+    "**b**b"+
+    "*bb*bb"
+],[
+    //right
+    "bb**bb"+
+    "b***b*"+
+    "bbbbbb"+
+    "bbrbrb"+
+    "bbbbbb"+
+    "bbrbrb"+
+    "brbrbr"+
+    "bbbbbb"+
+    "*bbb**"+
+    "*bbb**"+
+    "*bbb**"+
+    "b**b**"+
+    "bb*bb*",
+
+    "bb**bb"+
+    "b***b*"+
+    "bbbbbb"+
+    "bbrbrb"+
+    "bbbbbb"+
+    "bbrbrb"+
+    "brbrbr"+
+    "bbbbbb"+
+    "*bbb**"+
+    "*bbb**"+
+    "*bbb**"+
+    "*b**b*"+
+    "*bb*bb"
+]];
+
+function Rabbit () {
+    let drawable = {};
+
+    // sprites [ "left frames" , "right frames" ]
+    drawable.sprites = frames;
+
+    drawable.linesAmount = 13;
+    drawable.linesLength = 6;
+    
+    drawable.pixelSize = new PhysicVector(5,5);
+    drawable.animSpeed = 200;
+    drawable.framecounter = 0;
+    drawable.lastFrameUpdate = new Date();
+
+    drawable.size = new PhysicVector(32,40);
+    drawable.pixelSize.x = drawable.size.x/drawable.linesLength;
+    drawable.pixelSize.y = drawable.size.y/drawable.linesAmount;
+
+    drawable.colors = {
+        b: "rgba(0, 0, 0, 1)",
+        r: "rgba(255, 0, 0, 1)"
+    };
+
+    drawable.update = () => {
+
+    };
+
+    return drawable;
+};
+
+module.exports = Rabbit;
+},{"../gameeng/physicvector":12}],8:[function(require,module,exports){
+const PhysicVector = require('../gameeng/physicvector');
+
+var frames = [[
+    //left
+    "b**b*******b"+
+    "*b*b******bb"+
+    "*bbb******bw"+
+    "bwbwb****bw*"+
+    "*bbb**bb*b**"+
+    "**b*bbbbb***"+
+    "****bbbbb***"+
+    "*****bwb****"+
+    "****b***b***"+
+    "****b***b***",
+],[
+    //right
+    "b*******b**b"+
+    "bb******b*b*"+
+    "wb******bbb*"+
+    "*wb****bwbwb"+
+    "**b*bb**bbb*"+
+    "***bbbbb*b**"+
+    "***bbbbb****"+
+    "****bwb*****"+
+    "***b***b****"+
+    "***b***b****",
+]];
+
+function Skunk () {
+    let drawable = {};
+
+    // sprites [ "left frames" , "right frames" ]
+    drawable.sprites = frames;
+
+    drawable.linesAmount = 10;
+    drawable.linesLength = 12;
+    
+    drawable.pixelSize = new PhysicVector(5,5);
+    drawable.animSpeed = 200;
+    drawable.framecounter = 0;
+    drawable.lastFrameUpdate = new Date();
+
+    drawable.size = new PhysicVector(50,40);
+    drawable.pixelSize.x = drawable.size.x/drawable.linesLength;
+    drawable.pixelSize.y = drawable.size.y/drawable.linesAmount;
+
+    drawable.colors = {
+        b: "rgba(0, 0, 0, 1)",
+        w: "rgba(255, 255, 255, 1)"
+    };
+
+    drawable.update = () => {
+
+    };
+
+    return drawable;
+};
+
+module.exports = Skunk;
+},{"../gameeng/physicvector":12}],9:[function(require,module,exports){
 function CollisionDetection () {
 
 	// ellipse X rectangle collision
@@ -366,7 +655,7 @@ function CollisionDetection () {
 
 
 module.exports = CollisionDetection;
-},{}],6:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 //basic event system
 event = {};
 event.subs = [];
@@ -410,7 +699,7 @@ event.executeAfter = function(to,cb){
 }
 
 module.exports = event;
-},{}],7:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 function ImageElement(image){
 	var imgElem = document.createElement("img");
 	imgElem.src = image;
@@ -419,7 +708,7 @@ function ImageElement(image){
 }
 
 module.exports = ImageElement;
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 function PhysicVector(x, y){
 
     this.x = x;
@@ -463,12 +752,13 @@ function PhysicVector(x, y){
 }
 
 module.exports = PhysicVector;
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 function Pixel(pixelData) {
 
-    this.sprites = pixelData.sprites;
+	this.sprites = pixelData.sprites;
     this.linesAmount = pixelData.linesAmount;
 	this.linesLength = pixelData.linesLength;
+	this.size = pixelData.size;
     this.pixelSize = pixelData.pixelSize;
 	this.animSpeed = pixelData.animSpeed;
     this.framecounter = pixelData.framecounter;
@@ -495,7 +785,7 @@ function Pixel(pixelData) {
 };
 
 module.exports = Pixel;
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 const PhysicVector = require('./physicvector');
 const ImageElement = require('./imageelement');
 
@@ -566,12 +856,12 @@ function GameView(gameSize){
 					object.size.y
 				);
 				break;
-			case "pxl":
-				let totalAmount = object.drawable.linesLength * object.drawable.linesAmount;
-				for(var i = 0; i < totalAmount; i++) {
-					var posX = i % object.drawable.linesLength;
-					var posY = Math.floor(i/object.drawable.linesAmount);
+			case "drawable":
+				var totalAmount = object.drawable.linesLength * object.drawable.linesAmount;
+				for(let i = 0; i < totalAmount; i++) {
 					if (object.drawable.colors[object.drawable.img[i]]) {
+						let posX = i % object.drawable.linesLength;
+						let posY = Math.floor(i/object.drawable.linesLength);
 						ctx.fillStyle = object.drawable.colors[object.drawable.img[i]];
 						ctx.fillRect(
 							this.pos.x + object.pos.x + object.drawable.pixelSize.x * posX,
@@ -652,7 +942,7 @@ function GameView(gameSize){
 }
 
 module.exports = GameView;
-},{"./imageelement":7,"./physicvector":8}],11:[function(require,module,exports){
+},{"./imageelement":11,"./physicvector":12}],15:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 
 function Brick(){
@@ -690,7 +980,64 @@ function Brick(){
 }
 
 module.exports = Brick;
-},{"../gameeng/physicvector":8}],12:[function(require,module,exports){
+},{"../gameeng/physicvector":12}],16:[function(require,module,exports){
+const PhysicVector = require('../gameeng/physicvector');
+const Pixel = require('../gameeng/pixel');
+
+const Rabbit = require("../gamedata/rabbit");
+const Fox = require("../gamedata/fox");
+const Skunk = require("../gamedata/skunk");
+const Eagle = require("../gamedata/eagle");
+
+const Brick = require('./brick');
+
+function Enemy() {
+    this.shape = 'drawable';
+    this.pos = new PhysicVector(0,0);
+    this.initPos = new PhysicVector(0,0);
+    this.dir = 1;
+    this.update = () => {};
+
+    var setup = (type) => {
+        
+        switch (type) {
+            case "rabbit":
+                this.drawable = new Pixel(Rabbit());
+                break;
+            case "fox":
+                this.drawable = new Pixel(Fox());
+                break;
+            case "skunk":
+                this.drawable = new Pixel(Skunk());
+                break;
+            case "eagle":
+                this.drawable = new Pixel(Eagle());
+                break;
+            default:
+                break;
+        }
+
+        this.speed = 2;
+        this.dist = 100;
+        this.pos = this.initPos;
+        this.update = () => {
+            console.log("updating");
+            this.pos.x = this.pos.x + this.dir * this.speed;
+        }
+        this.size = this.drawable.size;
+    };
+
+    this.init = (posX, posY, type) => {
+        this.initPos.x = posX;
+        this.initPos.y = posY;
+        setup(type);
+    };
+};
+
+Enemy.prototype = new Brick();
+
+module.exports = Enemy;
+},{"../gamedata/eagle":3,"../gamedata/fox":4,"../gamedata/rabbit":7,"../gamedata/skunk":8,"../gameeng/physicvector":12,"../gameeng/pixel":13,"./brick":15}],17:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 const Brick = require('./brick');
 
@@ -787,7 +1134,7 @@ function Part(){
 Part.prototype = new Brick();
 
 module.exports = Explosion;
-},{"../gameeng/physicvector":8,"./brick":11}],13:[function(require,module,exports){
+},{"../gameeng/physicvector":12,"./brick":15}],18:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 const Pixel = require('../gameeng/pixel');
 
@@ -810,9 +1157,10 @@ function Hero(){
 		maxSpeed = 30,
 		atr = .1;
 	
-	this.shape = 'pxl';
+	this.shape = 'drawable';
 	this.drawable = new Pixel(getHero());
-
+	this.size = this.drawable.size;
+	
 	//GET USER INPUT
 	
 	var getKeyDownInput = function(event) {
@@ -862,13 +1210,7 @@ function Hero(){
 	//PUBLIC FUNCTIONS
 
 	this.init = function(_gameSize){
-
 		this.pos.x = this.pos.y = 0;
-		this.size.x = 44;
-		this.size.y = 40;
-		this.drawable.pixelSize.x = this.size.x/this.drawable.linesLength;
-		this.drawable.pixelSize.y = this.size.y/this.drawable.linesAmount;
-
 		addListeners();
 	}
 
@@ -919,8 +1261,9 @@ function Hero(){
 Hero.prototype = new Brick();
 
 module.exports = Hero;
-},{"../gamedata/hero":3,"../gameeng/physicvector":8,"../gameeng/pixel":9,"./brick":11}],14:[function(require,module,exports){
+},{"../gamedata/hero":5,"../gameeng/physicvector":12,"../gameeng/pixel":13,"./brick":15}],19:[function(require,module,exports){
 const Brick = require('./brick');
+const Enemy = require('./enemy');
 const Explosion = require('./explosion');
 
 function Level(){
@@ -937,30 +1280,34 @@ function Level(){
 	this.init = function(_gameSize, intLvl){
 		var blocks = intLvl.blocks;
 		var levelStuff = intLvl.levelStuff;
+		var enemies = intLvl.enemies;
 
 		gameSize = _gameSize;
 		
-		for (var index in blocks)
-		{
-			var block = blocks[index];
+		blocks.forEach( elem => {
 			var brick = new Brick();
 			brick.brickType = 'ground';
-			brick.init(block.x, block.y);
-			brick.setSize(block.width, block.height);
-			brick.setColor(block.color);
+			brick.init(elem.x, elem.y);
+			brick.setSize(elem.width, elem.height);
+			brick.setColor(elem.color);
 			this.elements.push(brick);
-		}
+		});
 
-		for (var index in levelStuff) {
-
-			var thing = levelStuff[index];
+		levelStuff.forEach(elem => {
 			var brick = new Brick();
 			brick.brickType = 'thing';
-			brick.init(thing.x,thing.y);
-			brick.setSize(thing.width, thing.height);
-			brick.setColor(thing.color);
+			brick.init(elem.x,elem.y);
+			brick.setSize(elem.width, elem.height);
+			brick.setColor(elem.color);
 			this.elements.push(brick);
-		}
+		});
+
+		enemies.forEach( elem => {
+			var enemy = new Enemy();
+			enemy.brickType = 'enemy';
+			enemy.init(elem.x,elem.y,elem.type);
+			this.elements.push(enemy);
+		});
 
 		if (intLvl.levelExit) {
 			this.levelExit = intLvl.levelExit;
@@ -1030,7 +1377,7 @@ function Level(){
 }
 
 module.exports = Level;
-},{"./brick":11,"./explosion":12}],15:[function(require,module,exports){
+},{"./brick":15,"./enemy":16,"./explosion":17}],20:[function(require,module,exports){
 function Score(){
 
 	this.points = 0;
@@ -1056,7 +1403,7 @@ function Score(){
 }
 
 module.exports = Score;
-},{}],16:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 const Score = require('../gameobjects/score');
 
 function GameOverState(_stateMachine)
@@ -1092,7 +1439,7 @@ function GameOverState(_stateMachine)
 }
 
 module.exports =GameOverState;
-},{"../gameobjects/score":15}],17:[function(require,module,exports){
+},{"../gameobjects/score":20}],22:[function(require,module,exports){
 const CollisionDetection = require('../gameeng/collisiondetection');
 const event = require('../gameeng/event');
 
@@ -1129,6 +1476,9 @@ function GameLevelState(_stateMachine) {
 				colCheck.rectCollision(hero, gameLevel.elements[i]))
 			{
 				switch (gameLevel.elements[i].brickType) {
+					case 'enemy':
+						// colides with an enemy
+						break;
 					case 'thing':
 						gameLevel.removeBrick(i);
 						break;
@@ -1205,7 +1555,7 @@ function GameLevelState(_stateMachine) {
 }
 
 module.exports = GameLevelState;
-},{"../gamedata/levels":4,"../gameeng/collisiondetection":5,"../gameeng/event":6,"../gameobjects/hero":13,"../gameobjects/level":14,"../gameobjects/score":15}],18:[function(require,module,exports){
+},{"../gamedata/levels":6,"../gameeng/collisiondetection":9,"../gameeng/event":10,"../gameobjects/hero":18,"../gameobjects/level":19,"../gameobjects/score":20}],23:[function(require,module,exports){
 const Score = require('../gameobjects/score');
 
 function SplashState(_stateMachine)
@@ -1278,8 +1628,8 @@ function SplashState(_stateMachine)
 }
 
 module.exports = SplashState;
-},{"../gameobjects/score":15}],19:[function(require,module,exports){
+},{"../gameobjects/score":20}],24:[function(require,module,exports){
 const Game = require('./game');
 
 Game();
-},{"./game":1}]},{},[19]);
+},{"./game":1}]},{},[24]);

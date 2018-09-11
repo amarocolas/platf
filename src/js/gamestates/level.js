@@ -34,6 +34,9 @@ function GameLevelState(_stateMachine) {
 				colCheck.rectCollision(hero, gameLevel.elements[i]))
 			{
 				switch (gameLevel.elements[i].brickType) {
+					case 'enemy':
+						// colides with an enemy
+						break;
 					case 'thing':
 						gameLevel.removeBrick(i);
 						break;
