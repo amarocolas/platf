@@ -46,9 +46,9 @@ function Explosion(){
 			for(var i = 0; i < this.parts.length; i++)
 			{
 				this.parts[i].update();
-				this.parts[i].setColor(this.color);	
+				this.parts[i].setColor(this.color);
 			}
-
+			
 			isOver = false;
 		}else{
 			isOver = true;
@@ -67,10 +67,11 @@ function Explosion(){
 }
 
 function Part(){
-	this.size.x = 100;
-	this.size.y = 20;
-	this.color = "rgba(250, 250, 250, 1)";
+	this.shape = "rectangle";
+	this.size = new PhysicVector(100, 20);
+	this.pos = new PhysicVector(0, 0);
 	this.speed = new PhysicVector(0, 0);
+	this.color = "rgba(250, 250, 250, 1)";
 	var gravity = .5;
 
 	this.update = function(){

@@ -9,6 +9,7 @@ function Level(){
 		gameSize;
 		
 	this.elements = [];
+	this.enemies = [];
 	this.levelExit = null;
 
 	//PUBLIC FUNCTIONS
@@ -42,7 +43,7 @@ function Level(){
 			var enemy = new Enemy();
 			enemy.brickType = 'enemy';
 			enemy.init(elem.x,elem.y,elem.type);
-			this.elements.push(enemy);
+			this.enemies.push(enemy);
 		});
 
 		if (intLvl.levelExit) {
@@ -73,6 +74,10 @@ function Level(){
 				explosions.splice(w - 1, 1);
 			}
 		}
+
+		this.enemies.forEach( elem => {
+			elem.update();
+		});
 	}
 
 	this.addExplosion = function(elem)
@@ -93,13 +98,17 @@ function Level(){
 		{	
 			view.draw(this.elements[i]);
 		}
+
+		this.enemies.forEach( elem => {
+			view.draw(elem);
+		});
 		
 		view.draw(this.levelExit);
 		for(var w = explosions.length; w > 0; w--)
 		{
 			for(var t = 0; t < explosions[w - 1].parts.length; t++)
 			{
-				view.draw(explosions[w - 1].parts[t]);
+				view.draw(explosions[w - 1].parts[t], true);
 			}
 		}
 	}

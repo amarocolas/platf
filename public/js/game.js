@@ -49,6 +49,9 @@ var GameStateMachine = (gameConf) => {
 	this.gameSize = {width:3200, height:600};
 	this.viewSize = {width:800, height:600};
 	
+	this.levelNumber = 0;
+	this.lives = 3;
+
 	this.view = new GameView(this.gameSize);
 	this.view.init('game_canvas');
 	this.view.size(this.viewSize.width, this.viewSize.height);
@@ -179,6 +182,16 @@ var frames = [[
     "***ooooooo*"+
     "**oo****oo*"+
     "**o******o*",
+
+    "o*o******o*"+
+    "ooo******oo"+
+    "ror******oo"+
+    "ooo*****o**"+
+    "*o*ooooo***"+
+    "***ooooo***"+
+    "***ooooooo*"+
+    "*oo*****oo*"+
+    "*o********o",
 ],[
     //right
     "o*******o*o"+
@@ -190,6 +203,16 @@ var frames = [[
     "*ooooooo***"+
     "*oo****oo**"+
     "*o******o**",
+
+    "*o******o*o"+
+    "oo******ooo"+
+    "oo******ror"+
+    "**o*****ooo"+
+    "***ooooo*o*"+
+    "***ooooo***"+
+    "*ooooooo***"+
+    "*oo*****oo*"+
+    "o********o*",
 ]];
 
 function Fox () {
@@ -422,10 +445,8 @@ function getHero() {
 
 module.exports = getHero;
 },{"../gameeng/physicvector":12}],6:[function(require,module,exports){
-function getIntro(){
-	var level = {};
-
-	level.blocks=[
+var levels = [{
+	blocks : [
 		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
 		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
 		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
@@ -442,30 +463,99 @@ function getIntro(){
 		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
 		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
 		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
-	];
+	],
 
-	level.enemies = [
+	enemies : [
 		{x: 200, y: 510, type:"rabbit"},
-		{x: 300, y: 500, type:"fox"},
-		{x: 400, y: 510, type:"skunk"},
-		{x: 500, y: 510, type:"eagle"},
-	];
+	],
 
-	level.levelStuff = [
+	levelStuff : [
 		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
 		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
 		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
 		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
 		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
-	];
+	],
 
-	level.levelExit = {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"};
+	levelExit : {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
+},
+{
+	blocks : [
+		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
+	],
 
-	return level;
+	enemies : [
+		{x: 200, y: 510, type:"rabbit"},
+		{x: 300, y: 500, type:"fox"},
+	],
 
+	levelStuff : [
+		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
+	],
+
+	levelExit : {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
+},{
+	blocks : [
+		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
+	],
+
+	enemies : [
+		{x: 200, y: 510, type:"rabbit"},
+		{x: 300, y: 500, type:"fox"},
+		{x: 400, y: 510, type:"skunk"},
+		{x: 500, y: 510, type:"eagle"},
+	],
+
+	levelStuff : [
+		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
+		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
+	],
+
+	levelExit : {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
+}];
+
+function getLevel(index){
+	return levels[index];
 }
 
-module.exports = getIntro;
+module.exports = getLevel;
 },{}],7:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 
@@ -575,6 +665,17 @@ var frames = [[
     "*****bwb****"+
     "****b***b***"+
     "****b***b***",
+
+    "*b**b******b"+
+    "**b*b*****bb"+
+    "**bbb*****bw"+
+    "*bwbwb***bw*"+
+    "**bbb*bb*b**"+
+    "***bbbbbb***"+
+    "****bbbbb***"+
+    "*****bwb****"+
+    "****b***b***"+
+    "*****b*b****",
 ],[
     //right
     "b*******b**b"+
@@ -587,6 +688,17 @@ var frames = [[
     "****bwb*****"+
     "***b***b****"+
     "***b***b****",
+
+    "b******b**b*"+
+    "bb*****b*b**"+
+    "wb*****bbb**"+
+    "*wb***bwbwb*"+
+    "**b*bb*bbb**"+
+    "***bbbbbb***"+
+    "***bbbbb****"+
+    "****bwb*****"+
+    "***b***b****"+
+    "****b*b*****",
 ]];
 
 function Skunk () {
@@ -1018,11 +1130,17 @@ function Enemy() {
         }
 
         this.speed = 2;
-        this.dist = 100;
-        this.pos = this.initPos;
+        this.dist = 200;
+        this.pos.x = this.initPos.x;
+        this.pos.y = this.initPos.y;
         this.update = () => {
-            console.log("updating");
+            if ( this.pos.x < this.initPos.x || 
+                this.pos.x > (this.initPos.x + this.dist)
+            ) {
+                this.dir = this.dir * -1;
+            }
             this.pos.x = this.pos.x + this.dir * this.speed;
+            this.drawable.update(this.dir);
         }
         this.size = this.drawable.size;
     };
@@ -1086,9 +1204,9 @@ function Explosion(){
 			for(var i = 0; i < this.parts.length; i++)
 			{
 				this.parts[i].update();
-				this.parts[i].setColor(this.color);	
+				this.parts[i].setColor(this.color);
 			}
-
+			
 			isOver = false;
 		}else{
 			isOver = true;
@@ -1107,10 +1225,11 @@ function Explosion(){
 }
 
 function Part(){
-	this.size.x = 100;
-	this.size.y = 20;
-	this.color = "rgba(250, 250, 250, 1)";
+	this.shape = "rectangle";
+	this.size = new PhysicVector(100, 20);
+	this.pos = new PhysicVector(0, 0);
 	this.speed = new PhysicVector(0, 0);
+	this.color = "rgba(250, 250, 250, 1)";
 	var gravity = .5;
 
 	this.update = function(){
@@ -1273,6 +1392,7 @@ function Level(){
 		gameSize;
 		
 	this.elements = [];
+	this.enemies = [];
 	this.levelExit = null;
 
 	//PUBLIC FUNCTIONS
@@ -1306,7 +1426,7 @@ function Level(){
 			var enemy = new Enemy();
 			enemy.brickType = 'enemy';
 			enemy.init(elem.x,elem.y,elem.type);
-			this.elements.push(enemy);
+			this.enemies.push(enemy);
 		});
 
 		if (intLvl.levelExit) {
@@ -1337,6 +1457,10 @@ function Level(){
 				explosions.splice(w - 1, 1);
 			}
 		}
+
+		this.enemies.forEach( elem => {
+			elem.update();
+		});
 	}
 
 	this.addExplosion = function(elem)
@@ -1357,13 +1481,17 @@ function Level(){
 		{	
 			view.draw(this.elements[i]);
 		}
+
+		this.enemies.forEach( elem => {
+			view.draw(elem);
+		});
 		
 		view.draw(this.levelExit);
 		for(var w = explosions.length; w > 0; w--)
 		{
 			for(var t = 0; t < explosions[w - 1].parts.length; t++)
 			{
-				view.draw(explosions[w - 1].parts[t]);
+				view.draw(explosions[w - 1].parts[t], true);
 			}
 		}
 	}
@@ -1413,7 +1541,7 @@ function GameOverState(_stateMachine)
 
 	var init = function(){
 
-		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',x:0,y:0,width:gameSize.width,height:gameSize.width});
+		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',pos:{x:0,y:0},size:{x:gameSize.width,y:gameSize.width}});
 		stateMachine.view.drawText({text:'game over',font:"bold 98pt sans-serif",x:70,y:300});
 	}
 
@@ -1447,7 +1575,7 @@ const Score = require('../gameobjects/score');
 const Hero = require('../gameobjects/hero');
 const Level = require('../gameobjects/level');
 
-const getIntro = require('../gamedata/levels');
+const getLevel = require('../gamedata/levels');
 
 function GameLevelState(_stateMachine) {
 	var stateMachine = _stateMachine;
@@ -1460,7 +1588,7 @@ function GameLevelState(_stateMachine) {
 	
 	var init = function(){
 		hero.init(gameSize);
-		gameLevel.init(gameSize, getIntro());
+		gameLevel.init(gameSize, getLevel(stateMachine.levelNumber));
 
 		score.setView(stateMachine.view);
 
@@ -1476,9 +1604,6 @@ function GameLevelState(_stateMachine) {
 				colCheck.rectCollision(hero, gameLevel.elements[i]))
 			{
 				switch (gameLevel.elements[i].brickType) {
-					case 'enemy':
-						// colides with an enemy
-						break;
 					case 'thing':
 						gameLevel.removeBrick(i);
 						break;
@@ -1495,6 +1620,12 @@ function GameLevelState(_stateMachine) {
 				}
 			}
 		}
+
+		gameLevel.enemies.forEach(enem => {
+			if (colCheck.rectCollision(hero, enem)) {
+				event.pub("gameover");
+			};
+		});
 
 		hero.update();
 		gameLevel.update();
@@ -1527,7 +1658,12 @@ function GameLevelState(_stateMachine) {
 		})
 
 		event.sub("nextLevel",function(){
-			stateMachine.setState(stateMachine.SPLASH_STATE);
+			if (stateMachine.levelNumber < 3) {
+				stateMachine.levelNumber += 1;
+				stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
+			} else {
+				stateMachine.setState(stateMachine.SPLASH_STATE);
+			}
 		})
 		
 		event.sub("brickhit",function(){

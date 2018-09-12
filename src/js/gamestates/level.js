@@ -5,7 +5,7 @@ const Score = require('../gameobjects/score');
 const Hero = require('../gameobjects/hero');
 const Level = require('../gameobjects/level');
 
-const getIntro = require('../gamedata/levels');
+const getLevel = require('../gamedata/levels');
 
 function GameLevelState(_stateMachine) {
 	var stateMachine = _stateMachine;
@@ -18,7 +18,7 @@ function GameLevelState(_stateMachine) {
 	
 	var init = function(){
 		hero.init(gameSize);
-		gameLevel.init(gameSize, getIntro());
+		gameLevel.init(gameSize, getLevel(stateMachine.levelNumber));
 
 		score.setView(stateMachine.view);
 
@@ -34,9 +34,6 @@ function GameLevelState(_stateMachine) {
 				colCheck.rectCollision(hero, gameLevel.elements[i]))
 			{
 				switch (gameLevel.elements[i].brickType) {
-					case 'enemy':
-						// colides with an enemy
-						break;
 					case 'thing':
 						gameLevel.removeBrick(i);
 						break;
@@ -53,6 +50,12 @@ function GameLevelState(_stateMachine) {
 				}
 			}
 		}
+
+		gameLevel.enemies.forEach(enem => {
+			if (colCheck.rectCollision(hero, enem)) {
+				event.pub("gameover");
+			};
+		});
 
 		hero.update();
 		gameLevel.update();
@@ -85,7 +88,12 @@ function GameLevelState(_stateMachine) {
 		})
 
 		event.sub("nextLevel",function(){
-			stateMachine.setState(stateMachine.SPLASH_STATE);
+			if (stateMachine.levelNumber < 3) {
+				stateMachine.levelNumber += 1;
+				stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
+			} else {
+				stateMachine.setState(stateMachine.SPLASH_STATE);
+			}
 		})
 		
 		event.sub("brickhit",function(){

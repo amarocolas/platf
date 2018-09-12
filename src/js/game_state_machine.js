@@ -15,6 +15,9 @@ var GameStateMachine = (gameConf) => {
 	this.gameSize = {width:3200, height:600};
 	this.viewSize = {width:800, height:600};
 	
+	this.levelNumber = 0;
+	this.lives = 3;
+
 	this.view = new GameView(this.gameSize);
 	this.view.init('game_canvas');
 	this.view.size(this.viewSize.width, this.viewSize.height);

@@ -35,11 +35,17 @@ function Enemy() {
         }
 
         this.speed = 2;
-        this.dist = 100;
-        this.pos = this.initPos;
+        this.dist = 200;
+        this.pos.x = this.initPos.x;
+        this.pos.y = this.initPos.y;
         this.update = () => {
-            console.log("updating");
+            if ( this.pos.x < this.initPos.x || 
+                this.pos.x > (this.initPos.x + this.dist)
+            ) {
+                this.dir = this.dir * -1;
+            }
             this.pos.x = this.pos.x + this.dir * this.speed;
+            this.drawable.update(this.dir);
         }
         this.size = this.drawable.size;
     };

@@ -11,6 +11,16 @@ var frames = [[
     "***ooooooo*"+
     "**oo****oo*"+
     "**o******o*",
+
+    "o*o******o*"+
+    "ooo******oo"+
+    "ror******oo"+
+    "ooo*****o**"+
+    "*o*ooooo***"+
+    "***ooooo***"+
+    "***ooooooo*"+
+    "*oo*****oo*"+
+    "*o********o",
 ],[
     //right
     "o*******o*o"+
@@ -22,6 +32,16 @@ var frames = [[
     "*ooooooo***"+
     "*oo****oo**"+
     "*o******o**",
+
+    "*o******o*o"+
+    "oo******ooo"+
+    "oo******ror"+
+    "**o*****ooo"+
+    "***ooooo*o*"+
+    "***ooooo***"+
+    "*ooooooo***"+
+    "*oo*****oo*"+
+    "o********o*",
 ]];
 
 function Fox () {

@@ -7,7 +7,7 @@ function GameOverState(_stateMachine)
 
 	var init = function(){
 
-		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',x:0,y:0,width:gameSize.width,height:gameSize.width});
+		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',pos:{x:0,y:0},size:{x:gameSize.width,y:gameSize.width}});
 		stateMachine.view.drawText({text:'game over',font:"bold 98pt sans-serif",x:70,y:300});
 	}
 
