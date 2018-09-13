@@ -14,11 +14,8 @@ function Score(){
 		this.draw(view);
 	}
 
-	this.draw = function(){
-		//view = _view;
-		//view.clear();
-
-		view.draw({shape:'score', color:"#35C115", lives:this.lives, points:this.points} );
+	this.draw = function(numLives, level){
+		view.draw({shape:'score', color:"#35C115", lives:numLives, level: level + 1, points:this.points} );
 	}
 }
 

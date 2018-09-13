@@ -1,6 +1,7 @@
 const SplashState = require('./gamestates/splashscreen');
 const GameLevelState = require('./gamestates/level');
 const GameOverState = require('./gamestates/gameover');
+const GameCompleteState = require('./gamestates/gamecomplete');
 
 const GameView = require('./gameeng/view');
 
@@ -9,6 +10,7 @@ var GameStateMachine = (gameConf) => {
 	this.SPLASH_STATE = 'splash_state';
 	this.GAME_LEVEL_STATE = 'game_level_state';
 	this.GAME_OVER_STATE = 'game_over_state';
+	this.GAME_COMPLETE_STATE = 'game_complete_state';
 
 	var gameState = null;
 
@@ -58,6 +60,9 @@ var GameStateMachine = (gameConf) => {
 				break;
 			case this.GAME_OVER_STATE:
 				gameState = GameOverState(this);
+				break;
+			case this.GAME_COMPLETE_STATE:
+				gameState = GameCompleteState(this);
 				break;
 			default :
 				break;

@@ -30,10 +30,13 @@ function SplashState(_stateMachine)
 			stateMachine.view.clear();
 		}
 		else{
-			stateMachine.view.drawText({text:"Press enter to start",font:"bold 48pt sans-serif",x:100,y:300});
+			stateMachine.view.drawText({text:"Press enter to start",font:"bold 48pt sans-serif",x:100,y:500});
 		}
 
-		score.draw();
+		stateMachine.view.drawText({text:"this is sven the chicken",font:"20pt sans-serif",x:150,y:200});
+		stateMachine.view.drawText({text:"use arrow keys and take sven home",font:"20pt sans-serif",x:150,y:250});
+
+		score.draw(stateMachine.lives);
 	}
 
 	this.destroy = function(){

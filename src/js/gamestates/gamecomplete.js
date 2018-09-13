@@ -1,6 +1,4 @@
-const Score = require('../gameobjects/score');
-
-function GameOverState(_stateMachine)
+function GameCompleteState(_stateMachine)
 {	
 	var stateMachine = _stateMachine;
 	var gameSize = stateMachine.gameSize;
@@ -12,8 +10,8 @@ function GameOverState(_stateMachine)
 			y:stateMachine.view.pos.x
 		},size:{x:gameSize.width,y:gameSize.width}});
 		stateMachine.view.drawText({
-			text:'game over',font:"bold 98pt sans-serif",
-			x:Math.abs(stateMachine.view.pos.x) + 70,
+			text:'SVEN IS HOME',font:"bold 48pt sans-serif",
+			x:Math.abs(stateMachine.view.pos.x) + 150,
 			y:stateMachine.view.pos.y + 300
 		});
 
@@ -63,4 +61,4 @@ function GameOverState(_stateMachine)
 	return this;
 }
 
-module.exports =GameOverState;
+module.exports = GameCompleteState;

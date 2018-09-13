@@ -35,6 +35,7 @@ module.exports = Game;
 const SplashState = require('./gamestates/splashscreen');
 const GameLevelState = require('./gamestates/level');
 const GameOverState = require('./gamestates/gameover');
+const GameCompleteState = require('./gamestates/gamecomplete');
 
 const GameView = require('./gameeng/view');
 
@@ -43,6 +44,7 @@ var GameStateMachine = (gameConf) => {
 	this.SPLASH_STATE = 'splash_state';
 	this.GAME_LEVEL_STATE = 'game_level_state';
 	this.GAME_OVER_STATE = 'game_over_state';
+	this.GAME_COMPLETE_STATE = 'game_complete_state';
 
 	var gameState = null;
 
@@ -93,6 +95,9 @@ var GameStateMachine = (gameConf) => {
 			case this.GAME_OVER_STATE:
 				gameState = GameOverState(this);
 				break;
+			case this.GAME_COMPLETE_STATE:
+				gameState = GameCompleteState(this);
+				break;
 			default :
 				break;
 		}
@@ -102,7 +107,7 @@ var GameStateMachine = (gameConf) => {
 }
 
 module.exports = GameStateMachine;
-},{"./gameeng/view":14,"./gamestates/gameover":21,"./gamestates/level":22,"./gamestates/splashscreen":23}],3:[function(require,module,exports){
+},{"./gameeng/view":14,"./gamestates/gamecomplete":21,"./gamestates/gameover":22,"./gamestates/level":23,"./gamestates/splashscreen":24}],3:[function(require,module,exports){
 const PhysicVector = require('../gameeng/physicvector');
 
 var frames = [[
@@ -418,9 +423,9 @@ function getHero() {
     let hero = {};
 
     // sprites [ "left frames" , "right frames" ]
-    hero.sprites = brownChicken;
+    hero.sprites = blackChicken;
 
-    hero.linesAmount = 11;
+    hero.linesAmount = 13;
 	hero.linesLength = 11;
     hero.pixelSize = new PhysicVector(5,5);
     hero.animSpeed = 200;
@@ -447,108 +452,71 @@ module.exports = getHero;
 },{"../gameeng/physicvector":12}],6:[function(require,module,exports){
 var levels = [{
 	blocks : [
-		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
+		{x: 0, y: 550, width: 500, height: 50, color: "#57B033"},
+		{x: 700, y: 550, width: 300, height: 50, color: "#57B033"},
+		{x: 1000, y: 450, width: 300, height: 50, color: "#57B033"},
+		{x: 1300, y: 350, width: 300, height: 50, color: "#57B033"},
+		{x: 1800, y: 550, width: 400, height: 50, color: "#57B033"},
+		{x: 2500, y: 550, width: 700, height: 50, color: "#57B033"}
 	],
 
 	enemies : [
 		{x: 200, y: 510, type:"rabbit"},
+		{x: 1400, y: 310, type:"rabbit"},
+		{x: 2500, y: 510, type:"rabbit"}
 	],
 
-	levelStuff : [
-		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
-	],
+	levelStuff : [],
 
-	levelExit : {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
-},
-{
-	blocks : [
-		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
-	],
-
-	enemies : [
-		{x: 200, y: 510, type:"rabbit"},
-		{x: 300, y: 500, type:"fox"},
-	],
-
-	levelStuff : [
-		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
-	],
-
-	levelExit : {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
+	levelExit : {x: 3150, y: 450, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
 },{
 	blocks : [
-		{x: 50, y: 520, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 100, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 300, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 600, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 800, y: 400, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1600, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 1800, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2000, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2200, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2400, y: 350, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2600, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 2800, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 3000, y: 235, width: 100, height: 30, color: "hsla(213, 100%, 90%, .4)"},
-		{x: 0, y: 550, width: 3200, height: 50, color: "#57B033"}
+		{x: 400, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 800, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1200, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1600, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2000, y: 350, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2400, y: 350, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		
+		{x: 0, y: 550, width: 900, height: 50, color: "#57B033"},
+		{x: 1600, y: 550, width: 600, height: 50, color: "#57B033"},
+		{x: 3000, y: 350, width: 200, height: 50, color: "#57B033"}
 	],
 
 	enemies : [
 		{x: 200, y: 510, type:"rabbit"},
-		{x: 300, y: 500, type:"fox"},
-		{x: 400, y: 510, type:"skunk"},
-		{x: 500, y: 510, type:"eagle"},
+		{x: 1400, y: 310, type:"eagle"}
 	],
 
-	levelStuff : [
-		{x: 200, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 325, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 295, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 200, y: 265, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"},
-		{x: 230, y: 355, width: 30, height: 30, color: "hsla(120, 100%, 90%, .6)"}
+	levelStuff : [],
+
+	levelExit : {x: 3150, y: 250, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
+},{
+	blocks : [
+		{x: 200, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 600, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1000, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 1600, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2200, y: 450, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		{x: 2600, y: 350, width: 200, height: 30, color: "hsla(213, 100%, 90%, .4)"},
+		
+		{x: 0, y: 550, width: 200, height: 50, color: "#57B033"},
+		{x: 800, y: 550, width: 1800, height: 50, color: "#57B033"}
 	],
 
-	levelExit : {x: 3150, y: 400, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
+	enemies : [
+		{x: 800, y: 500, type:"fox"},
+		{x: 1000, y: 510, type:"skunk"},
+		{x: 1200, y: 500, type:"fox"},
+		{x: 1400, y: 510, type:"skunk"},
+		{x: 1600, y: 500, type:"fox"},
+		{x: 1800, y: 510, type:"skunk"},
+		{x: 2000, y: 500, type:"fox"}
+	],
+
+	levelStuff : [],
+
+	levelExit : {x: 3150, y: 450, width: 50, height: 100, color: "hsla(322, 0%, 0%, 1)"}
 }];
 
 function getLevel(index){
@@ -787,6 +755,16 @@ event.sub = function(to,cb){
     event.subs[ci].push({'to':to,'cb':cb});
 }
 
+event.clear = function(to){
+    var triggerIndex = event.subsIndex.indexOf(to);
+    if (triggerIndex == -1) return null;
+
+    for (var i=0, len = event.subs[triggerIndex].length; i < len; i++)
+    {
+        event.subs[triggerIndex].splice(i, 1);
+    }
+}
+
 event.pub = function(to,param){
     var triggerIndex = event.subsIndex.indexOf(to);
 
@@ -954,9 +932,12 @@ function GameView(gameSize){
 				);
 				break;
 			case "score":
+				ctx.fillStyle = "rgba(0, 0, 0, 1)";
+				ctx.fillRect(0,0,800,50);
 				ctx.fillStyle = object.color;
 				ctx.font = "bold 32pt sans-serif"
-				ctx.fillText("Kip",10,40);
+				ctx.fillText("sven",10,40);
+				if (object.level) { ctx.fillText("level " + (object.level || 0),200,40); }
 				ctx.fillText("lives "+(object.lives || 0),_width-200,40);
 				break;
 			case "image":
@@ -991,17 +972,12 @@ function GameView(gameSize){
 	
 	this.drawText = function(o){
 		var context = ctx;
-		context.fillStyle="#35C115";
+		context.fillStyle="rgba(255, 192, 0, 1)";
 		context.font=o.font;
 		context.shadowOffsetX=4;
 		context.shadowOffsetY=4;
 		context.shadowBlur=3;
 		context.fillText(
-			o.text, 
-			this.pos.x + o.x, 
-			this.pos.y + o.y
-		);
-		context.strokeText(
 			o.text, 
 			this.pos.x + o.x, 
 			this.pos.y + o.y
@@ -1522,27 +1498,31 @@ function Score(){
 		this.draw(view);
 	}
 
-	this.draw = function(){
-		//view = _view;
-		//view.clear();
-
-		view.draw({shape:'score', color:"#35C115", lives:this.lives, points:this.points} );
+	this.draw = function(numLives, level){
+		view.draw({shape:'score', color:"#35C115", lives:numLives, level: level + 1, points:this.points} );
 	}
 }
 
 module.exports = Score;
 },{}],21:[function(require,module,exports){
-const Score = require('../gameobjects/score');
-
-function GameOverState(_stateMachine)
+function GameCompleteState(_stateMachine)
 {	
 	var stateMachine = _stateMachine;
 	var gameSize = stateMachine.gameSize;
 
 	var init = function(){
+		
+		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',pos:{
+			x:stateMachine.view.pos.x,
+			y:stateMachine.view.pos.x
+		},size:{x:gameSize.width,y:gameSize.width}});
+		stateMachine.view.drawText({
+			text:'SVEN IS HOME',font:"bold 48pt sans-serif",
+			x:Math.abs(stateMachine.view.pos.x) + 150,
+			y:stateMachine.view.pos.y + 300
+		});
 
-		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',pos:{x:0,y:0},size:{x:gameSize.width,y:gameSize.width}});
-		stateMachine.view.drawText({text:'game over',font:"bold 98pt sans-serif",x:70,y:300});
+		addEventHandlers();
 	}
 
 	this.update = function(){
@@ -1554,11 +1534,100 @@ function GameOverState(_stateMachine)
 	}
 
 	this.destroy = function(){
+		removeEventHandlers();
 		stateMachine.view.clean();
 	}
 
 	this.getState = function(){
 		return 'game_over_state';
+	}
+
+	var addEventHandlers = function(){
+		document.addEventListener('keydown', onKeyDown);
+	}
+
+	var removeEventHandlers = function(){
+		document.removeEventListener('keydown', onKeyDown);
+	}
+
+	function onKeyDown(e){
+			
+		switch (e.keyCode){
+		
+		case 13:
+			stateMachine.levelNumber = 0;
+			stateMachine.lives = 3;
+			stateMachine.view.clear();
+			stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
+			break;
+		}	
+	}
+
+	init();
+
+	return this;
+}
+
+module.exports = GameCompleteState;
+},{}],22:[function(require,module,exports){
+const Score = require('../gameobjects/score');
+
+function GameOverState(_stateMachine)
+{	
+	var stateMachine = _stateMachine;
+	var gameSize = stateMachine.gameSize;
+
+	var init = function(){
+		
+		stateMachine.view.draw({shape:'rectangle',color:'rgba(255,255,255,0.8)',pos:{
+			x:stateMachine.view.pos.x,
+			y:stateMachine.view.pos.x
+		},size:{x:gameSize.width,y:gameSize.width}});
+		stateMachine.view.drawText({
+			text:'game over',font:"bold 98pt sans-serif",
+			x:Math.abs(stateMachine.view.pos.x) + 70,
+			y:stateMachine.view.pos.y + 300
+		});
+
+		addEventHandlers();
+	}
+
+	this.update = function(){
+
+	}
+
+	this.draw = function(){
+		
+	}
+
+	this.destroy = function(){
+		removeEventHandlers();
+		stateMachine.view.clean();
+	}
+
+	this.getState = function(){
+		return 'game_over_state';
+	}
+
+	var addEventHandlers = function(){
+		document.addEventListener('keydown', onKeyDown);
+	}
+
+	var removeEventHandlers = function(){
+		document.removeEventListener('keydown', onKeyDown);
+	}
+
+	function onKeyDown(e){
+			
+		switch (e.keyCode){
+		
+		case 13:
+			stateMachine.levelNumber = 0;
+			stateMachine.lives = 3;
+			stateMachine.view.clear();
+			stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
+			break;
+		}	
 	}
 
 	init();
@@ -1567,7 +1636,7 @@ function GameOverState(_stateMachine)
 }
 
 module.exports =GameOverState;
-},{"../gameobjects/score":20}],22:[function(require,module,exports){
+},{"../gameobjects/score":20}],23:[function(require,module,exports){
 const CollisionDetection = require('../gameeng/collisiondetection');
 const event = require('../gameeng/event');
 
@@ -1623,12 +1692,16 @@ function GameLevelState(_stateMachine) {
 
 		gameLevel.enemies.forEach(enem => {
 			if (colCheck.rectCollision(hero, enem)) {
-				event.pub("gameover");
+				event.pub("chickendie");
 			};
 		});
 
 		hero.update();
 		gameLevel.update();
+
+		if (hero.pos.x < 0) { hero.pos.x = 0; }
+		if (hero.pos.x > gameSize.width) { hero.pos.x = gameSize.width; }
+		if(	hero.pos.y < 0 || hero.pos.y > gameSize.height) { event.pub("chickendie"); }
 		
 		if(colCheck.rectCollision(hero, gameLevel.levelExit) ){
 			event.pub("nextLevel");
@@ -1640,7 +1713,7 @@ function GameLevelState(_stateMachine) {
 		stateMachine.view.centerOnElement(hero.pos);
 		stateMachine.view.draw(hero);
 		gameLevel.draw(stateMachine.view);
-		score.draw();
+		score.draw(stateMachine.lives, stateMachine.levelNumber);
 	}
 
 	this.destroy = function(){
@@ -1653,16 +1726,25 @@ function GameLevelState(_stateMachine) {
 
 	var registerEvents = function(){
 		
+		event.sub("chickendie",function(){
+			if (stateMachine.lives > 0) {
+				stateMachine.lives -= 1;
+				stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
+			} else  {
+				event.pub("gameover");
+			}
+		})
+
 		event.sub("gameover",function(){
 			stateMachine.setState(stateMachine.GAME_OVER_STATE);
 		})
 
 		event.sub("nextLevel",function(){
-			if (stateMachine.levelNumber < 3) {
+			if (stateMachine.levelNumber < 2) {
 				stateMachine.levelNumber += 1;
 				stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
 			} else {
-				stateMachine.setState(stateMachine.SPLASH_STATE);
+				stateMachine.setState(stateMachine.GAME_COMPLETE_STATE);
 			}
 		})
 		
@@ -1672,17 +1754,10 @@ function GameLevelState(_stateMachine) {
 	}
 
 	var deregisterEvents = function(){
-		event.sub("gameover",function(){
-			
-		})
-
-		event.sub("nextLevel",function(){
-			
-		})
-		
-		event.sub("brickhit",function(){
-			
-		})
+		event.clear("chickendie");
+		event.clear("gameover");
+		event.clear("nextLevel");
+		event.clear("brickhit");
 	}
 
 	init();
@@ -1691,7 +1766,7 @@ function GameLevelState(_stateMachine) {
 }
 
 module.exports = GameLevelState;
-},{"../gamedata/levels":6,"../gameeng/collisiondetection":9,"../gameeng/event":10,"../gameobjects/hero":18,"../gameobjects/level":19,"../gameobjects/score":20}],23:[function(require,module,exports){
+},{"../gamedata/levels":6,"../gameeng/collisiondetection":9,"../gameeng/event":10,"../gameobjects/hero":18,"../gameobjects/level":19,"../gameobjects/score":20}],24:[function(require,module,exports){
 const Score = require('../gameobjects/score');
 
 function SplashState(_stateMachine)
@@ -1724,10 +1799,13 @@ function SplashState(_stateMachine)
 			stateMachine.view.clear();
 		}
 		else{
-			stateMachine.view.drawText({text:"Press enter to start",font:"bold 48pt sans-serif",x:100,y:300});
+			stateMachine.view.drawText({text:"Press enter to start",font:"bold 48pt sans-serif",x:100,y:500});
 		}
 
-		score.draw();
+		stateMachine.view.drawText({text:"this is sven the chicken",font:"20pt sans-serif",x:150,y:200});
+		stateMachine.view.drawText({text:"use arrow keys and take sven home",font:"20pt sans-serif",x:150,y:250});
+
+		score.draw(stateMachine.lives);
 	}
 
 	this.destroy = function(){
@@ -1764,8 +1842,8 @@ function SplashState(_stateMachine)
 }
 
 module.exports = SplashState;
-},{"../gameobjects/score":20}],24:[function(require,module,exports){
+},{"../gameobjects/score":20}],25:[function(require,module,exports){
 const Game = require('./game');
 
 Game();
-},{"./game":1}]},{},[24]);
+},{"./game":1}]},{},[25]);

@@ -17,6 +17,16 @@ event.sub = function(to,cb){
     event.subs[ci].push({'to':to,'cb':cb});
 }
 
+event.clear = function(to){
+    var triggerIndex = event.subsIndex.indexOf(to);
+    if (triggerIndex == -1) return null;
+
+    for (var i=0, len = event.subs[triggerIndex].length; i < len; i++)
+    {
+        event.subs[triggerIndex].splice(i, 1);
+    }
+}
+
 event.pub = function(to,param){
     var triggerIndex = event.subsIndex.indexOf(to);
 

@@ -53,12 +53,16 @@ function GameLevelState(_stateMachine) {
 
 		gameLevel.enemies.forEach(enem => {
 			if (colCheck.rectCollision(hero, enem)) {
-				event.pub("gameover");
+				event.pub("chickendie");
 			};
 		});
 
 		hero.update();
 		gameLevel.update();
+
+		if (hero.pos.x < 0) { hero.pos.x = 0; }
+		if (hero.pos.x > gameSize.width) { hero.pos.x = gameSize.width; }
+		if(	hero.pos.y < 0 || hero.pos.y > gameSize.height) { event.pub("chickendie"); }
 		
 		if(colCheck.rectCollision(hero, gameLevel.levelExit) ){
 			event.pub("nextLevel");
@@ -70,7 +74,7 @@ function GameLevelState(_stateMachine) {
 		stateMachine.view.centerOnElement(hero.pos);
 		stateMachine.view.draw(hero);
 		gameLevel.draw(stateMachine.view);
-		score.draw();
+		score.draw(stateMachine.lives, stateMachine.levelNumber);
 	}
 
 	this.destroy = function(){
@@ -83,16 +87,25 @@ function GameLevelState(_stateMachine) {
 
 	var registerEvents = function(){
 		
+		event.sub("chickendie",function(){
+			if (stateMachine.lives > 0) {
+				stateMachine.lives -= 1;
+				stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
+			} else  {
+				event.pub("gameover");
+			}
+		})
+
 		event.sub("gameover",function(){
 			stateMachine.setState(stateMachine.GAME_OVER_STATE);
 		})
 
 		event.sub("nextLevel",function(){
-			if (stateMachine.levelNumber < 3) {
+			if (stateMachine.levelNumber < 2) {
 				stateMachine.levelNumber += 1;
 				stateMachine.setState(stateMachine.GAME_LEVEL_STATE);
 			} else {
-				stateMachine.setState(stateMachine.SPLASH_STATE);
+				stateMachine.setState(stateMachine.GAME_COMPLETE_STATE);
 			}
 		})
 		
@@ -102,17 +115,10 @@ function GameLevelState(_stateMachine) {
 	}
 
 	var deregisterEvents = function(){
-		event.sub("gameover",function(){
-			
-		})
-
-		event.sub("nextLevel",function(){
-			
-		})
-		
-		event.sub("brickhit",function(){
-			
-		})
+		event.clear("chickendie");
+		event.clear("gameover");
+		event.clear("nextLevel");
+		event.clear("brickhit");
 	}
 
 	init();

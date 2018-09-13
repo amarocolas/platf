@@ -169,9 +169,9 @@ function getHero() {
     let hero = {};
 
     // sprites [ "left frames" , "right frames" ]
-    hero.sprites = brownChicken;
+    hero.sprites = blackChicken;
 
-    hero.linesAmount = 11;
+    hero.linesAmount = 13;
 	hero.linesLength = 11;
     hero.pixelSize = new PhysicVector(5,5);
     hero.animSpeed = 200;

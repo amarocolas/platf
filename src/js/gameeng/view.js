@@ -54,9 +54,12 @@ function GameView(gameSize){
 				);
 				break;
 			case "score":
+				ctx.fillStyle = "rgba(0, 0, 0, 1)";
+				ctx.fillRect(0,0,800,50);
 				ctx.fillStyle = object.color;
 				ctx.font = "bold 32pt sans-serif"
-				ctx.fillText("Kip",10,40);
+				ctx.fillText("sven",10,40);
+				if (object.level) { ctx.fillText("level " + (object.level || 0),200,40); }
 				ctx.fillText("lives "+(object.lives || 0),_width-200,40);
 				break;
 			case "image":
@@ -91,17 +94,12 @@ function GameView(gameSize){
 	
 	this.drawText = function(o){
 		var context = ctx;
-		context.fillStyle="#35C115";
+		context.fillStyle="rgba(255, 192, 0, 1)";
 		context.font=o.font;
 		context.shadowOffsetX=4;
 		context.shadowOffsetY=4;
 		context.shadowBlur=3;
 		context.fillText(
-			o.text, 
-			this.pos.x + o.x, 
-			this.pos.y + o.y
-		);
-		context.strokeText(
 			o.text, 
 			this.pos.x + o.x, 
 			this.pos.y + o.y
